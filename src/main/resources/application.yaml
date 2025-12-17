@@ -13,5 +13,6 @@ spring:
       hibernate:
         format_sql: true
 
-server:
-  port: ${PORT:8080}
+server:git status
+
+port: ${PORT:8080}
