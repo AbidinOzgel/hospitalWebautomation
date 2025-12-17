@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle} ?: 'HospitalX - Yönetim'">HospitalX</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <span class="logo-badge">HX</span>
+            <span class="logo-text">HospitalX</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a th:href="@{/dashboard}" class="nav-item" th:classappend="${activePage=='dashboard'} ? ' active'">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a th:href="@{/patients}" class="nav-item" th:classappend="${activePage=='patients'} ? ' active'">
+                <span class="nav-icon">👤</span>
+                <span>Hastalar</span>
+            </a>
+            <a th:href="@{/appointments}" class="nav-item" th:classappend="${activePage=='appointments'} ? ' active'">
+                <span class="nav-icon">📅</span>
+                <span>Randevular</span>
+            </a>
+            <a th:href="@{/examinations}" class="nav-item" th:classappend="${activePage=='examinations'} ? ' active'">
+                <span class="nav-icon">🩺</span>
+                <span>Muayeneler</span>
+            </a>
+            <a th:href="@{/lab/requests}" class="nav-item" th:classappend="${activePage=='lab'} ? ' active'">
+                <span class="nav-icon">🧪</span>
+                <span>Laboratuvar</span>
+            </a>
+
+            <div class="nav-section-title">Yönetim</div>
+
+            <a th:href="@{/departments}" class="nav-item" th:classappend="${activePage=='departments'} ? ' active'">
+                <span class="nav-icon">🏥</span>
+                <span>Poliklinikler</span>
+            </a>
+            <a th:href="@{/doctors}" class="nav-item" th:classappend="${activePage=='doctors'} ? ' active'">
+                <span class="nav-icon">👨‍⚕️</span>
+                <span>Doktorlar</span>
+            </a>
+            <a th:href="@{/users}" class="nav-item" th:classappend="${activePage=='users'} ? ' active'">
+                <span class="nav-icon">👥</span>
+                <span>Kullanıcılar</span>
+            </a>
+            <a th:href="@{/lab/tests}" class="nav-item" th:classappend="${activePage=='labtests'} ? ' active'">
+                <span class="nav-icon">📋</span>
+                <span>Lab Testleri</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main -->
+    <div class="main">
+        <header class="topbar">
+            <div class="topbar-left">
+                <h1 class="topbar-title" th:text="${pageTitle} ?: 'Dashboard'">Dashboard</h1>
+            </div>
+            <div class="topbar-right">
+                <div class="user-chip" th:if="${currentUser != null}">
+                    <div class="user-avatar" th:text="${#strings.substring(currentUser.fullName,0,1)}">A</div>
+                    <div class="user-info">
+                        <div class="user-name" th:text="${currentUser.fullName}">Admin User</div>
+                        <div class="user-role" th:text="${roleText ?: 'Yönetici'}">Yönetici</div>
+
+                    </div>
+                </div>
+                <a th:href="@{/logout}" class="btn btn-ghost">Çıkış</a>
+            </div>
+        </header>
+
+        <main class="content">
+            <div th:if="${flashMessage != null}" class="alert alert-success" th:text="${flashMessage}"></div>
+            <div th:if="${errorMessage != null}" class="alert alert-error" th:text="${errorMessage}"></div>
+
+            <!-- Sayfa içeriği -->
+            <div th:replace="${contentTemplate} :: content"></div>
+        </main>
+    </div>
+</div>
+</body>
+</html>

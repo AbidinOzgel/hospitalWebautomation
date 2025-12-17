@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <div class="card-title">Muayeneler</div>
+                <div class="card-subtitle">Kayıtlı muayene kayıtları</div>
+            </div>
+            <a th:href="@{/examinations/new}" class="btn btn-primary">+ Yeni Muayene</a>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Hasta</th>
+                <th>Doktor</th>
+                <th>Tanı</th>
+                <th>Tarih</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="e : ${examinations}">
+                <td th:text="${e.id}">1</td>
+                <td th:text="${e.patient != null ? e.patient.firstName + ' ' + e.patient.lastName : '-'}"></td>
+                <td th:text="${e.doctor != null and e.doctor.user != null ? e.doctor.user.fullName : '-'}"></td>
+                <td th:text="${e.diagnosis}">Tanı</td>
+                <td th:text="${e.createdAt}">2025-01-01</td>
+                <td>
+                    <a th:href="@{'/examinations/' + ${e.id} + '/edit'}"
+                       class="btn btn-ghost" style="font-size:11px;">Düzenle</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

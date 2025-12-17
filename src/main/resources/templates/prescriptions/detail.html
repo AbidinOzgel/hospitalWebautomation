@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <div class="card-title">Reçete Detayı #<span th:text="${prescription.id}">1</span></div>
+                <div class="card-subtitle">
+                    <span th:text="${prescription.patient != null ? prescription.patient.firstName + ' ' + prescription.patient.lastName : '-'}"></span>
+                    ·
+                    <span th:text="${prescription.doctor != null and prescription.doctor.user != null ? prescription.doctor.user.fullName : '-'}"></span>
+                </div>
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>İlaç Adı</th>
+                <th>Doz</th>
+                <th>Sıklık</th>
+                <th>Süre</th>
+                <th>Not</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="i : ${items}">
+                <td th:text="${i.drugName}">Parol</td>
+                <td th:text="${i.dose}">500 mg</td>
+                <td th:text="${i.frequency}">Günde 3</td>
+                <td th:text="${i.duration}">5 gün</td>
+                <td th:text="${i.notes}">Tok karnına</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div style="margin-top:10px;">
+            <a th:href="@{/prescriptions}" class="btn btn-ghost">Geri</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

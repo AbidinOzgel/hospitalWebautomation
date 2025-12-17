@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <div class="card-title">Randevular</div>
+                <div class="card-subtitle">Günlük veya tüm randevular</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <form th:action="@{/appointments}" method="get" style="display:flex;gap:8px;align-items:center;">
+                    <input class="form-control" type="date" name="date" th:value="${filterDate}">
+                </form>
+                <a th:href="@{/appointments/new}" class="btn btn-primary">+ Yeni Randevu</a>
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Tarih</th>
+                <th>Saat</th>
+                <th>Hasta</th>
+                <th>Doktor</th>
+                <th>Poliklinik</th>
+                <th>Durum</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="a : ${appointments}">
+                <td th:text="${a.appointmentDate}">2025-01-01</td>
+                <td th:text="${a.startTime}">10:30</td>
+                <td th:text="${a.patient != null ? a.patient.firstName + ' ' + a.patient.lastName : '-'}"></td>
+                <td th:text="${a.doctor != null and a.doctor.user != null ? a.doctor.user.fullName : '-'}"></td>
+                <td th:text="${a.department != null ? a.department.name : '-'}"></td>
+                <td>
+                    <span class="badge"
+                          th:classappend="${a.status == 'PLANNED'} ? ' badge-success' : ''"
+                          th:text="${a.status}">
+                        PLANNED
+                    </span>
+                </td>
+                <td>
+                    <a th:href="@{'/appointments/' + ${a.id} + '/edit'}"
+                       class="btn btn-ghost" style="font-size:11px;">Düzenle</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

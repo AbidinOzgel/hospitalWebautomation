@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title" th:text="${patient.id == null} ? 'Yeni Hasta' : 'Hasta Düzenle'">Hasta</div>
+        </div>
+
+        <form th:action="${patient.id == null} ? @{/patients} : @{'/patients/' + ${patient.id}}"
+              method="post"
+              class="form-grid">
+
+            <div class="form-group">
+                <label class="form-label">T.C. Kimlik No</label>
+                <input class="form-control" type="text" th:field="*{patient.nationalId}" name="nationalId">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Ad</label>
+                <input class="form-control" type="text" th:field="*{patient.firstName}" name="firstName" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Soyad</label>
+                <input class="form-control" type="text" th:field="*{patient.lastName}" name="lastName" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Doğum Tarihi</label>
+                <input class="form-control" type="date" th:field="*{patient.birthDate}" name="birthDate">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Cinsiyet</label>
+                <select class="form-select" th:field="*{patient.gender}" name="gender">
+                    <option value="">Seçiniz</option>
+                    <option value="MALE">Erkek</option>
+                    <option value="FEMALE">Kadın</option>
+                    <option value="OTHER">Diğer</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Telefon</label>
+                <input class="form-control" type="text" th:field="*{patient.phone}" name="phone">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">E-posta</label>
+                <input class="form-control" type="email" th:field="*{patient.email}" name="email">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Acil İletişim</label>
+                <input class="form-control" type="text" th:field="*{patient.emergencyContact}" name="emergencyContact">
+            </div>
+
+            <div class="form-group" style="grid-column:1 / span 2;">
+                <label class="form-label">Adres</label>
+                <textarea class="form-textarea" th:field="*{patient.address}" name="address"></textarea>
+            </div>
+
+            <div style="grid-column:1 / span 2;display:flex;justify-content:flex-end;gap:8px;margin-top:6px;">
+                <a th:href="@{/patients}" class="btn btn-ghost">İptal</a>
+                <button type="submit" class="btn btn-primary">Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <div class="card-title">Poliklinikler</div>
+                <div class="card-subtitle">Aktif ve pasif tüm bölümler</div>
+            </div>
+            <a th:href="@{/departments/new}" class="btn btn-primary">+ Yeni Poliklinik</a>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Kod</th>
+                <th>Ad</th>
+                <th>Durum</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="d : ${departments}">
+                <td th:text="${d.id}">1</td>
+                <td th:text="${d.code}">INT</td>
+                <td th:text="${d.name}">Dahiliye</td>
+                <td>
+                    <span class="badge"
+                          th:classappend="${d.active} ? ' badge-success' : ' badge-danger'"
+                          th:text="${d.active} ? 'Aktif' : 'Pasif'">
+                        Aktif
+                    </span>
+                </td>
+                <td>
+                    <a th:href="@{'/departments/' + ${d.id} + '/edit'}"
+                       class="btn btn-ghost" style="font-size:11px;">Düzenle</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <div class="card-title">Hastalar</div>
+                <div class="card-subtitle">Tüm hasta kayıtları</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <form th:action="@{/patients}" method="get" style="display:flex;gap:8px;align-items:center;">
+                    <input class="form-control" type="text" name="q"
+                           th:value="${query}" placeholder="İsim ile ara...">
+                </form>
+                <a th:href="@{/patients/new}" class="btn btn-primary">+ Yeni Hasta</a>
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>T.C.</th>
+                <th>Ad Soyad</th>
+                <th>Telefon</th>
+                <th>Doğum Tarihi</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${patients}">
+                <td th:text="${p.id}">1</td>
+                <td th:text="${p.nationalId}">123</td>
+                <td th:text="${p.firstName + ' ' + p.lastName}">Ad Soyad</td>
+                <td th:text="${p.phone}">0500</td>
+                <td th:text="${p.birthDate}">1999-01-01</td>
+                <td>
+                    <a th:href="@{'/patients/' + ${p.id} + '/edit'}" class="btn btn-ghost" style="font-size:11px;">
+                        Düzenle
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <div class="card-title">Doktorlar</div>
+                <div class="card-subtitle">Tüm doktor profilleri</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <form th:action="@{/doctors}" method="get">
+                    <select class="form-select" name="departmentId"
+                            onchange="this.form.submit()">
+                        <!-- ÖNEMLİ: th:value="" DEĞİL, normal value="" -->
+                        <option value="">Tüm bölümler</option>
+                        <option th:each="d : ${departments}"
+                                th:value="${d.id}"
+                                th:selected="${selectedDepartmentId} == d.id"
+                                th:text="${d.name}">
+                        </option>
+                    </select>
+                </form>
+                <a th:href="@{/doctors/new}" class="btn btn-primary">+ Yeni Doktor</a>
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ad Soyad</th>
+                <th>Bölüm</th>
+                <th>Unvan</th>
+                <th>Lisans No</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="d : ${doctors}">
+                <td th:text="${d.id}">1</td>
+                <td th:text="${d.user != null ? d.user.fullName : '-'}">Dr</td>
+                <td th:text="${d.department != null ? d.department.name : '-'}">Dahiliye</td>
+                <td th:text="${d.title}">Uzm. Dr.</td>
+                <td th:text="${d.licenseNo}">12345</td>
+                <td>
+                    <a th:href="@{'/doctors/' + ${d.id} + '/edit'}"
+                       class="btn btn-ghost" style="font-size:11px;">Düzenle</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">Yeni Reçete</div>
+        </div>
+
+        <form th:action="@{/prescriptions}" method="post" class="form-grid">
+
+            <div class="form-group" style="grid-column:1 / span 2;">
+                <label class="form-label">Muayene</label>
+                <select class="form-select" name="examinationId" required>
+                    <option value="">Seçiniz</option>
+                    <option th:each="e : ${examinations}"
+                            th:value="${e.id}"
+                            th:text="${'Muayene #' + e.id + ' - ' + (e.patient != null ? e.patient.firstName + ' ' + e.patient.lastName : '')}">
+                    </option>
+                </select>
+            </div>
+
+            <!-- 4 satırlık ilaç girişi örnek -->
+            <div class="form-group" style="grid-column:1 / span 2;">
+                <label class="form-label">İlaçlar</label>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                    <div th:each="i : ${#numbers.sequence(0,3)}"
+                         style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 2fr;gap:6px;">
+                        <input class="form-control" name="drugName" placeholder="İlaç adı">
+                        <input class="form-control" name="dose" placeholder="Doz">
+                        <input class="form-control" name="frequency" placeholder="Sıklık">
+                        <input class="form-control" name="duration" placeholder="Süre">
+                        <input class="form-control" name="notes" placeholder="Not">
+                    </div>
+                </div>
+            </div>
+
+            <div style="grid-column:1 / span 2;display:flex;justify-content:flex-end;gap:8px;margin-top:6px;">
+                <a th:href="@{/prescriptions}" class="btn btn-ghost">İptal</a>
+                <button type="submit" class="btn btn-primary">Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

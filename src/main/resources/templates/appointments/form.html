@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title"
+                 th:text="${appointment == null or appointment.id == null} ? 'Yeni Randevu' : 'Randevu Düzenle'">
+                Randevu
+            </div>
+        </div>
+
+        <form th:action="${appointment == null or appointment.id == null} ? @{/appointments} : @{'/appointments/' + ${appointment.id}}"
+              method="post"
+              class="form-grid">
+
+            <div class="form-group">
+                <label class="form-label">Hasta</label>
+                <select class="form-select" name="patientId" required>
+                    <option value="">Seçiniz</option>
+                    <option th:each="p : ${patients}"
+                            th:value="${p.id}"
+                            th:selected="${appointment != null and appointment.patient != null and appointment.patient.id == p.id}"
+                            th:text="${p.firstName + ' ' + p.lastName}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Doktor</label>
+                <select class="form-select" name="doctorId" required>
+                    <option value="">Seçiniz</option>
+                    <option th:each="d : ${doctors}"
+                            th:value="${d.id}"
+                            th:selected="${appointment != null and appointment.doctor != null and appointment.doctor.id == d.id}"
+                            th:text="${d.user != null ? d.user.fullName : 'Doktor #' + d.id}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Poliklinik</label>
+                <select class="form-select" name="departmentId">
+                    <option value="">Seçiniz</option>
+                    <option th:each="d : ${departments}"
+                            th:value="${d.id}"
+                            th:selected="${appointment != null and appointment.department != null and appointment.department.id == d.id}"
+                            th:text="${d.name}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Tarih</label>
+                <input class="form-control" type="date" name="appointmentDate"
+                       th:value="${appointment != null ? appointment.appointmentDate : ''}" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Başlangıç Saati</label>
+                <input class="form-control" type="time" name="startTime"
+                       th:value="${appointment != null ? appointment.startTime : ''}" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Bitiş Saati</label>
+                <input class="form-control" type="time" name="endTime"
+                       th:value="${appointment != null ? appointment.endTime : ''}">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Durum</label>
+                <select class="form-select" name="status" required>
+                    <option value="PLANNED"
+                            th:selected="${appointment != null and appointment.status == 'PLANNED'}">PLANNED</option>
+                    <option value="COMPLETED"
+                            th:selected="${appointment != null and appointment.status == 'COMPLETED'}">COMPLETED</option>
+                    <option value="CANCELLED"
+                            th:selected="${appointment != null and appointment.status == 'CANCELLED'}">CANCELLED</option>
+                    <option value="NO_SHOW"
+                            th:selected="${appointment != null and appointment.status == 'NO_SHOW'}">NO_SHOW</option>
+                </select>
+            </div>
+
+            <div class="form-group" style="grid-column:1 / span 2;">
+                <label class="form-label">Notlar</label>
+                <textarea class="form-textarea" name="notes"
+                          th:text="${appointment != null ? appointment.notes : ''}"></textarea>
+            </div>
+
+            <div style="grid-column:1 / span 2;display:flex;justify-content:flex-end;gap:8px;margin-top:6px;">
+                <a th:href="@{/appointments}" class="btn btn-ghost">İptal</a>
+                <button type="submit" class="btn btn-primary">Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

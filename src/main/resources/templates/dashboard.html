@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <div class="grid grid-4">
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <div class="card-title">Toplam Hasta</div>
+                    <div class="card-subtitle">Sistemde kayıtlı</div>
+                </div>
+            </div>
+            <div class="card-metric" th:text="${totalPatients}">0</div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <div class="card-title">Bugünkü Randevu</div>
+                    <div class="card-subtitle" th:text="${#temporals.format(#temporals.createNow(), 'dd.MM.yyyy')}">
+                        Bugün
+                    </div>
+                </div>
+            </div>
+            <div class="card-metric" th:text="${todayAppointments}">0</div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <div class="card-title">Toplam Muayene</div>
+                    <div class="card-subtitle">Kayıtlı muayene sayısı</div>
+                </div>
+            </div>
+            <div class="card-metric" th:text="${totalExaminations}">0</div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <div class="card-title">Lab İstekleri</div>
+                    <div class="card-subtitle">Toplam kayıt</div>
+                </div>
+            </div>
+            <div class="card-metric" th:text="${totalLabRequests}">0</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

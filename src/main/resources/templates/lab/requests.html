@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <div class="card-title">Lab İstekleri</div>
+                <div class="card-subtitle">Tüm lab istek kayıtları</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+                <form th:action="@{/lab/requests}" method="get">
+                    <select class="form-select" name="status" onchange="this.form.submit()">
+                        <!-- ÖNEMLİ: th:value="" kaldırıldı -->
+                        <option value="">Tüm durumlar</option>
+                        <option value="REQUESTED" th:selected="${statusFilter == 'REQUESTED'}">REQUESTED</option>
+                        <option value="IN_PROGRESS" th:selected="${statusFilter == 'IN_PROGRESS'}">IN_PROGRESS</option>
+                        <option value="COMPLETED" th:selected="${statusFilter == 'COMPLETED'}">COMPLETED</option>
+                    </select>
+                </form>
+                <a th:href="@{/lab/requests/new}" class="btn btn-primary">+ Yeni İstek</a>
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Hasta</th>
+                <th>Doktor</th>
+                <th>Durum</th>
+                <th>İstek Tarihi</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="r : ${requests}">
+                <td th:text="${r.id}">1</td>
+                <td th:text="${r.patient != null ? r.patient.firstName + ' ' + r.patient.lastName : '-'}"></td>
+                <td th:text="${r.doctor != null and r.doctor.user != null ? r.doctor.user.fullName : '-'}"></td>
+                <td>
+                    <span class="badge"
+                          th:classappend="${r.status == 'COMPLETED'} ? ' badge-success' : ''"
+                          th:text="${r.status}">
+                    </span>
+                </td>
+                <td th:text="${r.requestedAt}">2025-01-01</td>
+                <td>
+                    <a th:href="@{'/lab/requests/' + ${r.id}}"
+                       class="btn btn-ghost" style="font-size:11px;">Detay</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <div class="card-title">Lab Testleri</div>
+                <div class="card-subtitle">Tanımlı test listesi</div>
+            </div>
+            <a th:href="@{/lab/tests/new}" class="btn btn-primary">+ Yeni Test</a>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Kod</th>
+                <th>Ad</th>
+                <th>Birim</th>
+                <th>Referans Aralığı</th>
+                <th>Durum</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="t : ${tests}">
+                <td th:text="${t.code}">HB</td>
+                <td th:text="${t.name}">Hemoglobin</td>
+                <td th:text="${t.unit}">g/dL</td>
+                <td th:text="${t.refRange}">12-16</td>
+                <td>
+                    <span class="badge"
+                          th:classappend="${t.active} ? ' badge-success' : ' badge-danger'"
+                          th:text="${t.active} ? 'Aktif' : 'Pasif'"></span>
+                </td>
+                <td>
+                    <a th:href="@{'/lab/tests/' + ${t.id} + '/edit'}"
+                       class="btn btn-ghost" style="font-size:11px;">Düzenle</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

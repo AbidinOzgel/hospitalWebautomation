@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title"
+                 th:text="${examination == null or examination.id == null} ? 'Yeni Muayene' : 'Muayene Düzenle'">
+                Muayene
+            </div>
+        </div>
+
+        <form th:action="${examination == null or examination.id == null} ? @{/examinations} : @{'/examinations/' + ${examination.id}}"
+              method="post"
+              class="form-grid">
+
+            <div class="form-group" style="grid-column:1 / span 2;">
+                <label class="form-label">Randevu</label>
+                <select class="form-select" name="appointmentId" required>
+                    <option value="">Seçiniz</option>
+                    <option th:each="a : ${appointments}"
+                            th:value="${a.id}"
+                            th:selected="${examination != null and examination.appointment != null and examination.appointment.id == a.id}"
+                            th:text="${a.appointmentDate + ' / ' + (a.startTime != null ? a.startTime : '') + ' - ' + (a.patient != null ? a.patient.firstName + ' ' + a.patient.lastName : '')}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group" style="grid-column:1 / span 2;">
+                <label class="form-label">Şikayet</label>
+                <textarea class="form-textarea" name="complaint"
+                          th:text="${examination != null ? examination.complaint : ''}"></textarea>
+            </div>
+
+            <div class="form-group" style="grid-column:1 / span 2;">
+                <label class="form-label">Anamnez (Hikaye)</label>
+                <textarea class="form-textarea" name="anamnesis"
+                          th:text="${examination != null ? examination.anamnesis : ''}"></textarea>
+            </div>
+
+            <div class="form-group" style="grid-column:1 / span 2;">
+                <label class="form-label">Fizik Muayene</label>
+                <textarea class="form-textarea" name="physicalExam"
+                          th:text="${examination != null ? examination.physicalExam : ''}"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Tanı</label>
+                <textarea class="form-textarea" name="diagnosis"
+                          th:text="${examination != null ? examination.diagnosis : ''}"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Öneriler</label>
+                <textarea class="form-textarea" name="recommendations"
+                          th:text="${examination != null ? examination.recommendations : ''}"></textarea>
+            </div>
+
+            <div style="grid-column:1 / span 2;display:flex;justify-content:flex-end;gap:8px;margin-top:6px;">
+                <a th:href="@{/examinations}" class="btn btn-ghost">İptal</a>
+                <button type="submit" class="btn btn-primary">Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <div class="card-title">Lab İsteği #<span th:text="${request.id}">1</span></div>
+                <div class="card-subtitle">
+                    <span th:text="${request.patient != null ? request.patient.firstName + ' ' + request.patient.lastName : '-'}"></span>
+                    ·
+                    <span th:text="${request.doctor != null and request.doctor.user != null ? request.doctor.user.fullName : '-'}"></span>
+                    ·
+                    <span class="badge" th:text="${request.status}"></span>
+                </div>
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Test</th>
+                <th>Değer</th>
+                <th>Birim</th>
+                <th>Ref Aralık</th>
+                <th>Not</th>
+                <th>Durum</th>
+                <th>İşlem</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="i : ${items}">
+                <td th:text="${i.labTest != null ? i.labTest.name : '-'}"></td>
+                <td th:text="${i.resultValue}"></td>
+                <td th:text="${i.resultUnit}"></td>
+                <td th:text="${i.refRange}"></td>
+                <td th:text="${i.resultNotes}"></td>
+                <td th:text="${i.status}"></td>
+                <td>
+                    <div th:if="${i.status != 'RESULTED'}">
+                        <form th:action="@{'/lab/requests/items/' + ${i.id} + '/result'}" method="post"
+                              style="display:grid;grid-template-columns:1fr 0.7fr 0.9fr 1.2fr auto;gap:4px;">
+                            <input class="form-control" name="resultValue" placeholder="Değer">
+                            <input class="form-control" name="resultUnit" placeholder="Birim">
+                            <input class="form-control" name="refRange" placeholder="Ref aralık">
+                            <input class="form-control" name="resultNotes" placeholder="Not">
+                            <button class="btn btn-primary" type="submit" style="font-size:11px;">Kaydet</button>
+                        </form>
+                    </div>
+                    <span th:if="${i.status == 'RESULTED'}" class="badge badge-success">Tamamlandı</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div style="margin-top:10px;">
+            <a th:href="@{/lab/requests}" class="btn btn-ghost">Geri</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

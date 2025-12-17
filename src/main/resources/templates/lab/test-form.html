@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title"
+                 th:text="${labTest.id == null} ? 'Yeni Lab Testi' : 'Lab Testi Düzenle'">
+                Lab Testi
+            </div>
+        </div>
+
+        <form th:action="${labTest.id == null} ? @{/lab/tests} : @{'/lab/tests/' + ${labTest.id}}"
+              method="post"
+              class="form-grid">
+
+            <div class="form-group">
+                <label class="form-label">Kod</label>
+                <input class="form-control" type="text" name="code" th:value="${labTest.code}">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Ad</label>
+                <input class="form-control" type="text" name="name" th:value="${labTest.name}" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Birim</label>
+                <input class="form-control" type="text" name="unit" th:value="${labTest.unit}">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Referans Aralığı</label>
+                <input class="form-control" type="text" name="refRange" th:value="${labTest.refRange}">
+            </div>
+
+            <div class="form-group" style="grid-column:1 / span 2;">
+                <label class="form-label">Açıklama</label>
+                <textarea class="form-textarea" name="description"
+                          th:text="${labTest.description}"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Durum</label>
+                <select class="form-select" name="active">
+                    <option th:value="true" th:selected="${labTest.active} == true">Aktif</option>
+                    <option th:value="false" th:selected="${labTest.active} == false">Pasif</option>
+                </select>
+            </div>
+
+            <div style="grid-column:1 / span 2;display:flex;justify-content:flex-end;gap:8px;margin-top:6px;">
+                <a th:href="@{/lab/tests}" class="btn btn-ghost">İptal</a>
+                <button type="submit" class="btn btn-primary">Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
